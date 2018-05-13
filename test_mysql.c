@@ -18,6 +18,26 @@ void sig_int(int num)
     printf("testover\n");
     exit(1);
 };
+
+//转椅
+int change_word(char *dest, const char *buff)
+{
+	int num =0;
+	while(*buff){
+		if(*buff == '"'){
+			*dest = '\\';
+			dest = dest + 1;
+			*dest = '"';
+		}else{
+			*dest = *buff;
+		}
+		buff++;
+		dest++;
+	}
+	return 1;
+}
+
+
 int main()
 {
     int sockfd = 0;
@@ -28,6 +48,7 @@ int main()
     char buff[1024]= {0};
 	char *rev;
 	char insertbuff[1024] = {0};
+	char dest_buff[1024] = {0};
     signal(SIGINT, sig_int);
     if ((sockfd = socket(AF_INET, SOCK_STREAM, 0)) < 0)  
     {  
@@ -57,8 +78,11 @@ int main()
         read(client_fd, buff, 1024);    
 		rev = strstr(buff, "\r\n\r\n");
 		rev = rev +4;
+		change_word(dest_buff, rev);
+
+
         close(client_fd);        
-		sprintf(insertbuff, "insert into user (value) value (\"%s\")", rev);	
+		sprintf(insertbuff, "insert into user (value) value (\"%s\")", dest_buff);	
 		err = init_mysql();
 		if(err == -1){
 			print_mysql_error("error");
