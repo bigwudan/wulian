@@ -26,6 +26,8 @@ int main()
 	struct sockaddr_in dest;  
 	struct sockaddr_in client_addr;  
     char buff[1024]= {0};
+	char *rev;
+	char insertbuff[1024] = {0};
     signal(SIGINT, sig_int);
     if ((sockfd = socket(AF_INET, SOCK_STREAM, 0)) < 0)  
     {  
@@ -49,11 +51,28 @@ int main()
     }
     while(1){
         bzero(buff, 1024);
+		bzero(insertbuff, 1024);
         socklen_t addrlen = sizeof(struct sockaddr);
         client_fd= accept(sockfd, (struct sockaddr *)&client_addr, &addrlen);
-        read(sockfd, buff, 1024);    
+        read(client_fd, buff, 1024);    
+		rev = strstr(buff, "\r\n\r\n");
+		rev = rev +4;
         close(client_fd);        
+		sprintf(insertbuff, "insert into user (value) value (\"%s\")", rev);	
+		err = init_mysql();
+		if(err == -1){
+			print_mysql_error("error");
+			exit(1);
+		}
 
+		err = insert(insertbuff);
+
+		if(err == -1){
+			print_mysql_error("errori_1");
+			exit(1);
+		}
+
+		close_mysql();
     
     }
 
