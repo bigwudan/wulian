@@ -65,34 +65,30 @@ int main(){
     exit(errno);  
   }  
   printf("server connected\n\n");  
-  if (SSL_CTX_use_certificate_file(ctx,"/usr/games/wulian/client.pem", SSL_FILETYPE_PEM) <= 0)  
+  if (SSL_CTX_use_certificate_file(ctx,"client.pem", SSL_FILETYPE_PEM) <= 0)  
   {  
     ERR_print_errors_fp(stdout);  
     exit(1);  
   }  
 
 
- if (SSL_CTX_use_PrivateKey_file(ctx, "/usr/games/wulian/clientkey.pem", SSL_FILETYPE_PEM) <= 0)  
+ if (SSL_CTX_use_PrivateKey_file(ctx, "clientkey.pem", SSL_FILETYPE_PEM) <= 0)  
   {  
     ERR_print_errors_fp(stdout);  
     exit(1);  
   }
-
 	    /* 基于ctx 产生一个新的SSL */
     ssl = SSL_new(ctx);
     SSL_set_fd(ssl, sockfd);
 
 
-  flag=  SSL_connect(ssl);
+ // flag=  SSL_connect(ssl);
     if (SSL_connect(ssl) == -1)
         ERR_print_errors_fp(stderr);
     else {
 		printf("connected\n");
         printf("Connected with %s encryption\n", SSL_get_cipher(ssl));
     }
-
-
-
 char *p_head1 = "/iocm/app/sec/v1.1.0/login/";
 char *p_head2 = "180.101.147.89:8743";
 int bodynum = 70;
@@ -110,7 +106,6 @@ char *p_appkey = "XIcGewffJE8LpfMWksO4Vipvfsga";
               p_appid,
               p_appkey
       );
-
 
 
 	printf("buff=%s\n", buff);
