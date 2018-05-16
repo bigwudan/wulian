@@ -94,7 +94,6 @@ char *p_head2 = "180.101.147.89:8743";
 int bodynum = 70;
 char *p_appid = "Xqwyn4lJPuLIPYqHBH8UN_zK8fsa";
 char *p_appkey = "XIcGewffJE8LpfMWksO4Vipvfsga";
-
  ssize_t size_len = 0;
  char buff[300];
  sprintf(
@@ -106,39 +105,62 @@ char *p_appkey = "XIcGewffJE8LpfMWksO4Vipvfsga";
               p_appid,
               p_appkey
       );
-
-
-	/*printf("buff=%s\n", buff);*/
-
-
-
 	len = SSL_write(ssl, buff, 300);
-
 	char buffer_len[1024];
-
     /* 接收服务器来的消息*/
     len = SSL_read(ssl, buffer_len, 1024);
-    if (len > 0){
+    /*if (len > 0){*/
         /*printf("接收消息成功:'%s'，共%d 个字节的数据\n",*/
                /*buffer_len, len);*/
-    }    
-    else {
-        printf
-        ("消息接收失败！错误代码是%d，错误信息是'%s'\n",
-         errno, strerror(errno));
-		exit(1);
-    }
+    /*}    */
+    /*else {*/
+        /*printf*/
+        /*("消息接收失败！错误代码是%d，错误信息是'%s'\n",*/
+         /*errno, strerror(errno));*/
+		/*exit(1);*/
+    /*}*/
     char *p_add = NULL;
     p_add = strstr(buffer_len, "\"accessToken\":");
-    p_add = p_add+17;
+    p_add = p_add+15;
 
     char *p_start = NULL;
     int dur = 0;
     p_start =  strstr(p_add, "\"");
     dur = p_start- p_add;
-    memcpy(taken, p_add, dur*sizeof(char)); 
+    memcpy(taken, p_add, dur); 
 
-	printf("taken=%s\n",taken);
+    printf("****************/r/n");
+
+
+
+
+
+
+
+    char buff_com[1000]={0};
+    strcat(buff_com, "POST /iocm/app/cmd/v1.3.0/devices/ede76b44-7823-40f8-a258-a0c68f2fd8c9/commands HTTP/1.1\r\n");
+    strcat(buff_com, "Host: 180.101.147.89:8743\r\n");
+    strcat(buff_com, "Accept: */*\r\n");
+    strcat(buff_com, "app_key: Xqwyn4lJPuLIPYqHBH8UN_zK8fsa\r\n");
+    strcat(buff_com, "Authorization: ");
+
+    strcat(buff_com, taken);
+    strcat(buff_com, "\r\n");
+
+    strcat(buff_com, "Content-type: application/json\r\n");
+    strcat(buff_com, "Content-Length: 85\r\n\r\n");
+    strcat(buff_com, "{\"command\":{\"serviceId\":\"LOCK\",\"method\":\"cmd\",\"paras\":{\"cmd01\":\"77\"}},\"expireTime\":0}");
+
+    len = SSL_write(ssl, buff_com, 1000);
+    char buffer_len_com[2024] = {0};
+
+    /* 接收服务器来的消息*/
+    len = SSL_read(ssl, buffer_len_com, 2024);
+
+    
+    printf("len=%d\n", len);
+    exit(1);
+
 	return 1;
 }
 

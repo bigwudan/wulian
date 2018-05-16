@@ -67,14 +67,14 @@ int main(){
     }  
     printf("server connected\n\n");  
 
-    if (SSL_CTX_use_certificate_file(ctx,"/usr/games/wulian/client.pem", SSL_FILETYPE_PEM) <= 0)  
+    if (SSL_CTX_use_certificate_file(ctx,"client.pem", SSL_FILETYPE_PEM) <= 0)  
     {  
     ERR_print_errors_fp(stdout);  
     exit(1);  
     }  
 
 
-    if (SSL_CTX_use_PrivateKey_file(ctx, "/usr/games/wulian/clientkey.pem", SSL_FILETYPE_PEM) <= 0)  
+    if (SSL_CTX_use_PrivateKey_file(ctx, "clientkey.pem", SSL_FILETYPE_PEM) <= 0)  
     {  
     ERR_print_errors_fp(stdout);  
     exit(1);  
@@ -121,10 +121,10 @@ int main(){
     
     }
 
-    else {
-        //char *error_msg = strerror(errno);
-        printf("errorno=%d,%s\n",errno, strerror(errno));
-        exit(1);
-    }
+    /*else {*/
+        /*char *error_msg = strerror(errno);*/
+        /*printf("errorno=%d,%s\n",errno,error_msg );*/
+        /*exit(1);*/
+    /*}*/
     return 1;
 }
