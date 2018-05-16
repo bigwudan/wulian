@@ -1,0 +1,39 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.9~svn20110310	//
+DINADDR_ANY	command.c	19;"	d	file:
+DINADDR_ANY	send_command.c	18;"	d	file:
+DINADDR_ANY	test.c	18;"	d	file:
+MAXBUF	command.c	16;"	d	file:
+MAXBUF	send_command.c	15;"	d	file:
+MAXBUF	test.c	15;"	d	file:
+MAX_BUF_SIZE	mysql/mysql_connect.c	19;"	d	file:
+PORT	command.c	18;"	d	file:
+PORT	send_command.c	17;"	d	file:
+PORT	test.c	17;"	d	file:
+_MYSQL_CONNECT_H	mysql/mysql_connect.h	2;"	d
+change_word	service.c	/^int change_word(char *dest, const char *buff)$/;"	f
+change_word	test_mysql.c	/^int change_word(char *dest, const char *buff)$/;"	f
+close_mysql	mysql/mysql_connect.c	/^void close_mysql()$/;"	f
+executesql	mysql/mysql_connect.c	/^int executesql(const char * sql) {$/;"	f
+g_conn	mysql/mysql_connect.c	/^MYSQL *g_conn; \/\/ mysql 连接$/;"	v
+g_db_name	mysql/mysql_connect.c	/^const char *g_db_name = "mytest";$/;"	v
+g_db_port	mysql/mysql_connect.c	/^const unsigned int g_db_port = 3306;$/;"	v
+g_host_name	mysql/mysql_connect.c	/^const char *g_host_name = "localhost";$/;"	v
+g_password	mysql/mysql_connect.c	/^const char *g_password = "";$/;"	v
+g_res	mysql/mysql_connect.c	/^MYSQL_RES *g_res; \/\/ mysql 记录集$/;"	v
+g_row	mysql/mysql_connect.c	/^MYSQL_ROW g_row; \/\/ 字符串数组，mysql 记录行$/;"	v
+g_user_name	mysql/mysql_connect.c	/^const char *g_user_name = "root";$/;"	v
+init_mysql	mysql/mysql_connect.c	/^int init_mysql() { \/\/ 初始化连接$/;"	f
+insert	mysql/mysql_connect.c	/^int insert(const char *sql_str)$/;"	f
+main	command.c	/^int main(){$/;"	f
+main	send_command.c	/^int main(){$/;"	f
+main	service.c	/^int main()$/;"	f
+main	test.c	/^int main(){$/;"	f
+main	test_mysql.c	/^int main()$/;"	f
+print_mysql_error	mysql/mysql_connect.c	/^void print_mysql_error(const char *msg) { \/\/ 打印最后一次错误$/;"	f
+sig_int	service.c	/^void sig_int(int num)$/;"	f
+sig_int	test_mysql.c	/^void sig_int(int num)$/;"	f
