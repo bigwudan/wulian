@@ -92,6 +92,7 @@ int main()
 		err = insert(insertbuff);
 
 		if(err == -1){
+			printf("error_sql=%s\n", insertbuff);
 			print_mysql_error("errori_1");
 			exit(1);
 		}
