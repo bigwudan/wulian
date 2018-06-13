@@ -256,8 +256,8 @@ SSL_CTX_free(ctx);
 
 
 int main(){
-	//get_token();
-	send_command_1();	
+	get_token();
+	//send_command_1();	
 	printf("taken=%s\n", taken);
 	printf("ok\r\n");
 
