@@ -14,26 +14,6 @@
 #include <openssl/err.h>  
 #include <syslog.h>
 #include "mysql/mysql_connect.h"
-
-
-
-void signal_crash_handler(int sig)
-{
-	syslog(LOG_MAIL|LOG_NOTICE, "error=crash_handler");
-	exit(-1);
-}
- 
-void signal_exit_handler(int sig)
-{
-	syslog(LOG_MAIL|LOG_NOTICE, "error=exit_handler");
-	exit(0);
-}
-
-void server_on_exit(void)
-{
-	syslog(LOG_MAIL|LOG_NOTICE, "error=exit");
-}
-
 void sig_int(int num)
 {
     printf("testover\n");
@@ -70,20 +50,7 @@ int main()
 	char *rev;
 	char insertbuff[1024] = {0};
 	char dest_buff[1024] = {0};
-	
-
-	atexit(server_on_exit);
-	signal(SIGTERM, signal_exit_handler);
-	signal(SIGINT, signal_exit_handler);
-//	signal(SIGPIPE, SIG_IGN);
-	signal(SIGBUS, signal_crash_handler); 
-	signal(SIGSEGV, signal_crash_handler);
-	signal(SIGFPE, signal_crash_handler);
-	signal(SIGABRT, signal_crash_handler); 
-
-
-
-    //signal(SIGINT, sig_int);
+    signal(SIGINT, sig_int);
     if ((sockfd = socket(AF_INET, SOCK_STREAM, 0)) < 0)  
     {  
     perror("Socket");  
