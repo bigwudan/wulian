@@ -300,7 +300,7 @@ int send_command_up(){
 
 	//strcat(buff, "{\"manufacturerId\":\"GONTO\",\"manufacturerName\":\"GONTO\",\"deviceType\":\"WSYL001\"}");
 
-	strcat(buff, "{\"name\":\"863703038144506\"}");
+	strcat(buff, "{\"protocolType\":\"CoAP\"}");
 
     len = SSL_write(ssl, buff, 1300);
 

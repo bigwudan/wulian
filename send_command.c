@@ -102,7 +102,7 @@ int send_command_1(){
     strcat(buff, "Host: 180.101.147.89:8743\r\n");
     strcat(buff, "Accept: */*\r\n");
     strcat(buff, "app_key: Xqwyn4lJPuLIPYqHBH8UN_zK8fsa\r\n");
-    strcat(buff, "Authorization: d479ccca498f8c1e446a556febc22fd\r\n");
+    strcat(buff, "Authorization: c34bd21bbe20743a347718bbc95e34f4\r\n");
     strcat(buff, "Content-type: application/json\r\n");
     strcat(buff, "Content-Length: 300\r\n\r\n");
     //strcat(buff, "{\"command\":{\"serviceId\":\"LOCK\",\"method\":\"cmd\",\"paras\":{\"cmd01\":\"77\"}},\"expireTime\":0}");
@@ -256,8 +256,8 @@ SSL_CTX_free(ctx);
 
 
 int main(){
-	get_token();
-	//send_command_1();	
+	//get_token();
+	send_command_1();	
 	printf("taken=%s\n", taken);
 	printf("ok\r\n");
 
