@@ -59,18 +59,39 @@ int change_word(char *dest, const char *buff)
 }
 
 
+//得到body大小
+int get_body_num(char *p_char)
+{
+	char *p_addr = NULL;
+	char *p_des = NULL;
+	char buff[1000] = {0};
+	int dest = 0;
+	p_addr = strstr(p_char, "Content-Length: ");
+	if(p_addr){
+		p_addr = p_addr + 16;
+		p_des = strstr(p_addr, "\r\n");
+		dest = p_des - p_addr;
+		strncpy(buff, p_addr, dest);
+		dest = atoi(buff);
+	}
+	return dest;		
+}
+
+
 int main()
 {
     int sockfd = 0;
     int client_fd = 0;
     int err = 0;
+	int body_num = 0;
 	struct sockaddr_in dest;  
 	struct sockaddr_in client_addr;  
     char buff[1024]= {0};
 	char *rev;
 	char insertbuff[1024] = {0};
 	char dest_buff[1024] = {0};
-	
+	char body_buff[1024] = {0};
+
 
 	atexit(server_on_exit);
 	signal(SIGTERM, signal_exit_handler);
@@ -108,16 +129,18 @@ int main()
     while(1){
         bzero(buff, 1024);
 		bzero(insertbuff, 1024);
+		bzero(body_buff, 1024);
+
         socklen_t addrlen = sizeof(struct sockaddr);
         client_fd= accept(sockfd, (struct sockaddr *)&client_addr, &addrlen);
         read(client_fd, buff, 1024);    
+		body_num =  get_body_num(buff);
 		rev = strstr(buff, "\r\n\r\n");
 		rev = rev +4;
-		change_word(dest_buff, rev);
 
-
+		strncpy(body_buff, rev, body_num);
         close(client_fd);        
-		sprintf(insertbuff, "insert into user (value) value ('%s')", dest_buff);	
+		sprintf(insertbuff, "insert into user (value) value ('%s')", body_buff);	
 		err = init_mysql();
 		if(err == -1){
 			print_mysql_error("error");
