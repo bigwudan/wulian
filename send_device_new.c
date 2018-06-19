@@ -13,8 +13,14 @@
 #include <openssl/ssl.h>  
 #include <openssl/err.h>  
 #define MAXBUF 1024
-char taken[80];
-int send_command_1(){
+
+#define TOKEN  "2fa36b284332645a9a752e484ea27679"
+
+#define DEVICE  "95971498-ea49-49c9-91f6-0eda325bf1ed"
+
+
+
+int send_command_log(){
     int i,j,sockfd, len, fd, size, flag;  
     char fileName[50],sendFN[20];  
     struct sockaddr_in dest;  
@@ -94,15 +100,14 @@ int send_command_1(){
     strcat(buff, "Host: 180.101.147.89:8743\r\n");
     strcat(buff, "Accept: */*\r\n");
     strcat(buff, "app_key: Xqwyn4lJPuLIPYqHBH8UN_zK8fsa\r\n");
-    strcat(buff, "Authorization: 9f22b1ea27b15f0b557b7be82eefe1\r\n");
+	char token[1000] = {0};
+	sprintf(token, "Authorization: %s\r\n", TOKEN);
+	strcat(buff, token);
     strcat(buff, "Content-type: application/json\r\n");
     strcat(buff, "Content-Length: 300\r\n\r\n");
-
-	strcat(buff, "{\"verifyCode\":\"863703038145467\",\"nodeId\":\"863703038145467\",\"timeout\":6000}"); 
+	strcat(buff, "{\"verifyCode\":\"863703038145468\",\"nodeId\":\"863703038145468\",\"timeout\":6000}"); 
     len = SSL_write(ssl, buff, 1300);
-
     char buffer_len[2024];
-
     /* 接收服务器来的消息*/
     len = SSL_read(ssl, buffer_len, 2024);
 
@@ -191,13 +196,29 @@ int send_command_del(){
     printf("flag=%d\n", flag);
     ssize_t size_len = 0;
     char buff[1300];
-    strcat(buff, "DELETE port/iocm/app/dm/v1.4.0/devices/2f6354ad-48de-4f64-a9d1-920e0bbfc119?appId=Xqwyn4lJPuLIPYqHBH8UN_zK8fsa HTTP/1.1\r\n");
-    strcat(buff, "Host: 180.101.147.89:8743\r\n");
-    strcat(buff, "Accept: */*\r\n");
-    strcat(buff, "app_key: XIcGewffJE8LpfMWksO4Vipvfsga\r\n");
-    strcat(buff, "Authorization: 9f22b1ea27b15f0b557b7be82eefe1\r\n");
-    strcat(buff, "Content-type: application/json\r\n");
-    strcat(buff, "Content-Length: 300\r\n\r\n");
+
+
+	//strcat(buff, "DELETE /iocm/app/dm/v1.4.0/devices/2f6354ad-48de-4f64-a9d1-920e0bbfc119?appId=Xqwyn4lJPuLIPYqHBH8UN_zK8fsa HTTP/1.1\r\n");
+
+	char device[300] = {0};
+
+	sprintf(device, "DELETE /iocm/app/dm/v1.4.0/devices/%s?appId=Xqwyn4lJPuLIPYqHBH8UN_zK8fsa HTTP/1.1\r\n", DEVICE);
+	strcat(buff, device);
+
+	strcat(buff, "Host: 180.101.147.89:8743\r\n");
+	strcat(buff, "Accept: */*\r\n");
+	strcat(buff, "app_key: Xqwyn4lJPuLIPYqHBH8UN_zK8fsa\r\n");
+
+	char token[1000] = {0};
+	sprintf(token, "Authorization: %s\r\n", TOKEN);
+	strcat(buff, token);
+
+	//strcat(buff, "Authorization: 728e3b3ce3a8d2fe571759f2d661e459\r\n");
+
+
+	strcat(buff, "Content-type: application/json\r\n");
+	strcat(buff, "Content-Length: 300\r\n\r\n");
+
 
     len = SSL_write(ssl, buff, 1300);
 
@@ -222,111 +243,14 @@ int send_command_del(){
     return 1;
 }
 
-int send_command_up(){
-    int i,j,sockfd, len, fd, size, flag;  
-    char fileName[50],sendFN[20];  
-    struct sockaddr_in dest;  
-    char buffer[MAXBUF + 1];  
-    SSL_METHOD *meth;
-    SSL_CTX *ctx;  
-    SSL *ssl;  
-    char pwd[100];
-    char* temp;
-
-
-    SSL_library_init();
-    OpenSSL_add_all_algorithms();
-    SSL_load_error_strings();
-    meth=SSLv23_client_method();
-    ctx=SSL_CTX_new(meth);
-    if(!ctx){
-        exit(1);
-    }
-    /* 创建一个 socket 用于 tcp 通信 */  
-    if ((sockfd = socket(AF_INET, SOCK_STREAM, 0)) < 0)  
-    {  
-    perror("Socket");  
-    exit(errno);  
-    }  
-    printf("socket created\n");  
-
-    /* 初始化服务器端（对方）的地址和端口信息 */  
-    bzero(&dest, sizeof(dest));  
-    dest.sin_family = AF_INET;  
-    dest.sin_port = htons(8743);  
-    if (inet_aton("180.101.147.89", (struct in_addr *) &dest.sin_addr.s_addr) == 0)  
-    {  
-    perror("inet_aton");  
-    exit(errno);  
-    }  
-    printf("address created\n");  
-
-    /* 连接服务器 */  
-    if (connect(sockfd, (struct sockaddr *) &dest, sizeof(dest)) != 0)  
-    {  
-    perror("Connect ");  
-    exit(errno);  
-    }  
-    printf("server connected\n\n");  
-
-    if (SSL_CTX_use_certificate_file(ctx,"client.pem", SSL_FILETYPE_PEM) <= 0)  
-    {  
-    ERR_print_errors_fp(stdout);  
-    exit(1);  
-    }  
-
-
-    if (SSL_CTX_use_PrivateKey_file(ctx, "clientkey.pem", SSL_FILETYPE_PEM) <= 0)  
-    {  
-    ERR_print_errors_fp(stdout);  
-    exit(1);  
-    }
-
-    ssl = SSL_new(ctx);
-    SSL_set_fd(ssl, sockfd);
-
-
-  flag=  SSL_connect(ssl);
-    printf("flag=%d\n", flag);
-    ssize_t size_len = 0;
-    char buff[1300];
-    strcat(buff, "PUT /iocm/app/dm/v1.2.0/devices/2f6354ad-48de-4f64-a9d1-920e0bbfc119?appId=Xqwyn4lJPuLIPYqHBH8UN_zK8fsa HTTP/1.1\r\n");
-    strcat(buff, "Host: 180.101.147.89:8743\r\n");
-    strcat(buff, "Accept: */*\r\n");
-    strcat(buff, "app_key: Xqwyn4lJPuLIPYqHBH8UN_zK8fsa\r\n");
-    strcat(buff, "Authorization: 9f22b1ea27b15f0b557b7be82eefe1\r\n");
-    strcat(buff, "Content-type: application/json\r\n");
-    strcat(buff, "Content-Length: 300\r\n\r\n");
-//	strcat(buff, "{\"name\":\"863703038145467\",\"manufacturerId\":\"GONTO\",\"manufacturerName\":\"GONTO\",\"deviceType\":\"WSYL001\",\"protocolType\":\"CoAP\"}");
-
-	strcat(buff, "{\"name\":\"863703038145467\",\"manufacturerId\":\"GONTO\",\"manufacturerName\":\"GONTO\",\"deviceType\":\"WSYL001\",\"protocolType\":\"CoAP\",\"model\":\"WSYL001\"}");
-
-    len = SSL_write(ssl, buff, 1300);
-
-    char buffer_len[2024];
-
-    /* 接收服务器来的消息*/
-    len = SSL_read(ssl, buffer_len, 2024);
-
-    if(len > 0 ){
-    
-        printf("接收消息成功:'%s'，共%d 个字节的数据\n",
-               buffer_len, len);
-    
-    
-    }
-
-    /*else {*/
-        /*char *error_msg = strerror(errno);*/
-        /*printf("errorno=%d,%s\n",errno,error_msg );*/
-        /*exit(1);*/
-    /*}*/
-    return 1;
-}
-int main(){
-	//send_command_1();	
-	send_command_del();	
-	//send_command_up();
+int main()
+{
+	//send_command_log();
+	//
+	//
+	send_command_del();
 	exit(1);
+
+
 }
 
