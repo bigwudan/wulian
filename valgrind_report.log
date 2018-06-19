@@ -1,0 +1,6 @@
+==14988== Memcheck, a memory error detector
+==14988== Copyright (C) 2002-2017, and GNU GPL'd, by Julian Seward et al.
+==14988== Using Valgrind-3.13.0 and LibVEX; rerun with -h for copyright info
+==14988== Command: ./test_mysql
+==14988== Parent PID: 14933
+==14988== 

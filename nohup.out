@@ -2,3 +2,4 @@ socket created
 error_sql=insert into user (value) value ("{\"notifyType\":\"deviceDataChanged\",\"deviceId\":\"0a6d19dc-a2b4-49b1-be1d-20e4d3034400\",\"gatewayId\":\"0a6d19dc-a2b4-49b1-be1d-20e4d3034400\",\"requestId\":null,\"service\":{\"serviceId\":\"WXYL\",\"serviceType\":\"WXYL\",\"data\":{\"DTYPE\":1001,\"DID\":\"00000000\",\"CYCLE_1\":5,\"CYCLE_2\":5,\"C2_SM\":3,\"C2_SD\":1,\"C2_EM\":4,\"C2_ED\":1,\"C2_EN\":1,\"CCID\":\"89860317492038984330\",\"SVER\":1,\"VOLT\":0,\"CSQ\":18,\"SCNT\":100,\"TEMP_1\":2613,\"TEMP_2\":2669,\"PRE\":0,\"FLAG\":0},\"eventTime\":\"20180606T173019Z\"}}"}}")
 errori_1: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '}}")' at line 1
 socket created
+valgrind: =: command not found

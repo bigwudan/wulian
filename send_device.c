@@ -94,11 +94,11 @@ int send_command_1(){
     strcat(buff, "Host: 180.101.147.89:8743\r\n");
     strcat(buff, "Accept: */*\r\n");
     strcat(buff, "app_key: Xqwyn4lJPuLIPYqHBH8UN_zK8fsa\r\n");
-    strcat(buff, "Authorization: c92b6535cc67262fa97d65e6ab776b8b\r\n");
+    strcat(buff, "Authorization: bdbade7b29542d69351f7a4baccb560\r\n");
     strcat(buff, "Content-type: application/json\r\n");
     strcat(buff, "Content-Length: 300\r\n\r\n");
 
-	strcat(buff, "{\"verifyCode\":\"863703030737123\",\"nodeId\":\"863703030737123\",\"timeout\":6000}"); 
+	strcat(buff, "{\"verifyCode\":\"863703038145467\",\"nodeId\":\"863703038145467\",\"timeout\":6000}"); 
     len = SSL_write(ssl, buff, 1300);
 
     char buffer_len[2024];
@@ -290,17 +290,16 @@ int send_command_up(){
     printf("flag=%d\n", flag);
     ssize_t size_len = 0;
     char buff[1300];
-    strcat(buff, "PUT /iocm/app/dm/v1.2.0/devices/78004c0b-84b3-4e56-b327-78e15637b538?appId=Xqwyn4lJPuLIPYqHBH8UN_zK8fsa HTTP/1.1\r\n");
+    strcat(buff, "PUT /iocm/app/dm/v1.2.0/devices/7d47ec21-69a3-4c70-804e-a6a879d485b9?appId=Xqwyn4lJPuLIPYqHBH8UN_zK8fsa HTTP/1.1\r\n");
     strcat(buff, "Host: 180.101.147.89:8743\r\n");
     strcat(buff, "Accept: */*\r\n");
     strcat(buff, "app_key: Xqwyn4lJPuLIPYqHBH8UN_zK8fsa\r\n");
-    strcat(buff, "Authorization: c92b6535cc67262fa97d65e6ab776b8b\r\n");
+    strcat(buff, "Authorization: bdbade7b29542d69351f7a4baccb560\r\n");
     strcat(buff, "Content-type: application/json\r\n");
     strcat(buff, "Content-Length: 300\r\n\r\n");
+//	strcat(buff, "{\"name\":\"863703038145467\",\"manufacturerId\":\"GONTO\",\"manufacturerName\":\"GONTO\",\"deviceType\":\"WSYL001\",\"protocolType\":\"CoAP\"}");
 
-	//strcat(buff, "{\"manufacturerId\":\"GONTO\",\"manufacturerName\":\"GONTO\",\"deviceType\":\"WSYL001\"}");
-
-	strcat(buff, "{\"protocolType\":\"CoAP\"}");
+	strcat(buff, "{\"name\":\"863703038145467\",\"manufacturerId\":\"GONTO\",\"manufacturerName\":\"GONTO\",\"deviceType\":\"WSYL001\",\"protocolType\":\"CoAP\",\"model\":\"WSYL001\"}");
 
     len = SSL_write(ssl, buff, 1300);
 
